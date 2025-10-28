@@ -6,14 +6,11 @@ char tablero[3][3];
 
 // Función para inicializar el tablero con números del 1 al 9
 void inicializarTablero() {
-    int contador = 1;
-    // Se recorren las filas
-    for (int i = 0; i < 3; i++) {
-        // Se recorren las columnas
-        for (int j = 0; j < 3; j++) {
-            // Se asigna el número correspondiente como carácter
-            tablero[i][j] = '0' + contador;
-            contador++;
+    int contador = 1;  // Variable para numerar las posiciones
+    for (int i = 0; i < 3; i++) {      // Recorre filas
+        for (int j = 0; j < 3; j++) {  // Recorre columnas
+            tablero[i][j] = '0' + contador;  // Convierte el número a carácter
+            contador++;                       // Avanza al siguiente número
         }
     }
 }
@@ -21,15 +18,20 @@ void inicializarTablero() {
 // Función para mostrar el tablero actual
 void mostrarTablero() {
     cout << "\n";
-    // Recorre cada fila
-    for (int i = 0; i < 3; i++) {
-        // Recorre cada columna
-        for (int j = 0; j < 3; j++) {
+    for (int i = 0; i < 3; i++) {           // Recorre filas
+        for (int j = 0; j < 3; j++) {       // Recorre columnas
             cout << " " << tablero[i][j] << " ";  // Muestra el valor
-            if (j < 2) cout << "|";              // Separa las columnas con |
+            if (j < 2) cout << "|";               // Coloca separador vertical
         }
         cout << "\n";
-        if (i < 2) cout << "---+---+---\n";      // Separa las filas con líneas
+        if (i < 2) cout << "---+---+---\n";      // Línea separadora entre filas
     }
     cout << "\n";
+}
+
+// Función principal de prueba
+int main() {
+    inicializarTablero();  // Llama a la función para llenar el tablero
+    mostrarTablero();      // Muestra el tablero inicial
+    return 0;              // Fin del programa
 }

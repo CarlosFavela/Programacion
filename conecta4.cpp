@@ -1,6 +1,6 @@
-// conecta4_vB_part3.cpp
-// Versión B - Parte 3
-// Añade métodos para comprobar victoria horizontal y vertical, y flujo de juego simple.
+// conecta4_vB_part4.cpp
+// Versión B - Parte 4
+// Añade detección diagonal y método general de ganador.
 
 #include <iostream>
 #include <array>
@@ -64,6 +64,35 @@ public:
         return false;
     }
 
+    bool hay4DiagDesc(char ficha) const { // \ diagonal descendente
+        for (int r = 0; r <= ROWS - 4; ++r) {
+            for (int c = 0; c <= COLS - 4; ++c) {
+                bool ok = true;
+                for (int k = 0; k < 4; ++k)
+                    if (board[r+k][c+k] != ficha) { ok = false; break; }
+                if (ok) return true;
+            }
+        }
+        return false;
+    }
+
+    bool hay4DiagAsc(char ficha) const { // / diagonal ascendente
+        for (int r = 3; r < ROWS; ++r) {
+            for (int c = 0; c <= COLS - 4; ++c) {
+                bool ok = true;
+                for (int k = 0; k < 4; ++k)
+                    if (board[r-k][c+k] != ficha) { ok = false; break; }
+                if (ok) return true;
+            }
+        }
+        return false;
+    }
+
+    bool hayGanador(char ficha) const {
+        return hay4Horizontal(ficha) || hay4Vertical(ficha) ||
+               hay4DiagDesc(ficha) || hay4DiagAsc(ficha);
+    }
+
     bool tableroLleno() const {
         for (int c = 0; c < COLS; ++c) if (board[0][c] == '.') return false;
         return true;
@@ -85,13 +114,11 @@ int main() {
             continue;
         }
 
-        // Comprueba horizontal y vertical
-        if (juego.hay4Horizontal(simbolos[turno]) || juego.hay4Vertical(simbolos[turno])) {
+        if (juego.hayGanador(simbolos[turno])) {
             juego.dibujar();
             std::cout << "Jugador " << (turno+1) << " gana!\n";
             break;
         }
-
         if (juego.tableroLleno()) {
             juego.dibujar();
             std::cout << "Empate.\n";

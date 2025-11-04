@@ -1,6 +1,6 @@
-// conecta4_vB_part4.cpp
-// Versión B - Parte 4
-// Añade detección diagonal y método general de ganador.
+// conecta4_vB_part5.cpp
+// Versión B - Parte 5 (final)
+// Juego completo en clase: reinicio, opción de jugar otra vez y comentarios.
 
 #include <iostream>
 #include <array>
@@ -13,12 +13,14 @@ public:
 
     Connect4() { reset(); }
 
+    // Inicializa tablero con '.'
     void reset() {
         for (int r = 0; r < ROWS; ++r)
             for (int c = 0; c < COLS; ++c)
                 board[r][c] = '.';
     }
 
+    // Muestra el tablero por consola
     void dibujar() const {
         for (int r = 0; r < ROWS; ++r) {
             for (int c = 0; c < COLS; ++c) {
@@ -30,6 +32,7 @@ public:
         std::cout << "\n\n";
     }
 
+    // Coloca una ficha en la columna (1..7). Retorna true si se colocó.
     bool colocar(int columna, char ficha) {
         int col = columna - 1;
         if (col < 0 || col >= COLS) return false;
@@ -64,7 +67,7 @@ public:
         return false;
     }
 
-    bool hay4DiagDesc(char ficha) const { // \ diagonal descendente
+    bool hay4DiagDesc(char ficha) const {
         for (int r = 0; r <= ROWS - 4; ++r) {
             for (int c = 0; c <= COLS - 4; ++c) {
                 bool ok = true;
@@ -76,7 +79,7 @@ public:
         return false;
     }
 
-    bool hay4DiagAsc(char ficha) const { // / diagonal ascendente
+    bool hay4DiagAsc(char ficha) const {
         for (int r = 3; r < ROWS; ++r) {
             for (int c = 0; c <= COLS - 4; ++c) {
                 bool ok = true;
@@ -100,33 +103,52 @@ public:
 };
 
 int main() {
-    std::cout << "Conecta 4 \n";
-    Connect4 juego;
-    int turno = 0;
-    char simbolos[2] = {'X','O'};
+    std::cout << "Conecta4  (Final)\n";
 
-    while (true) {
-        juego.dibujar();
-        std::cout << "Turno jugador " << (turno+1) << " (" << simbolos[turno] << "). Columna (1-7): ";
-        int col; std::cin >> col;
-        if (!juego.colocar(col, simbolos[turno])) {
-            std::cout << "Columna invalida o llena.\n";
-            continue;
-        }
+    bool jugarOtra = true;
+    while (jugarOtra) {
+        Connect4 juego;
+        int turno = 0;
+        char simbolos[2] = {'X','O'};
+        bool terminado = false;
 
-        if (juego.hayGanador(simbolos[turno])) {
+        while (!terminado) {
             juego.dibujar();
-            std::cout << "Jugador " << (turno+1) << " gana!\n";
-            break;
-        }
-        if (juego.tableroLleno()) {
-            juego.dibujar();
-            std::cout << "Empate.\n";
-            break;
+            std::cout << "Turno jugador " << (turno+1) << " (" << simbolos[turno] << "). Columna (1-7): ";
+            int col; std::cin >> col;
+            if (!std::cin) {
+                std::cin.clear();
+                std::cin.ignore(10000, '\n');
+                std::cout << "Entrada invalida. Intenta de nuevo.\n";
+                continue;
+            }
+            if (!juego.colocar(col, simbolos[turno])) {
+                std::cout << "Columna invalida o llena. Intenta otra.\n";
+                continue;
+            }
+
+            if (juego.hayGanador(simbolos[turno])) {
+                juego.dibujar();
+                std::cout << "Jugador " << (turno+1) << " (" << simbolos[turno] << ") gana!\n";
+                terminado = true;
+                continue;
+            }
+
+            if (juego.tableroLleno()) {
+                juego.dibujar();
+                std::cout << "Empate. Tablero lleno.\n";
+                terminado = true;
+                continue;
+            }
+
+            turno = 1 - turno;
         }
 
-        turno = 1 - turno;
+        std::cout << "Jugar otra vez (s/n): ";
+        char resp; std::cin >> resp;
+        if (resp != 's' && resp != 'S') jugarOtra = false;
     }
 
+    std::cout << "Gracias por jugar. Hasta luego!\n";
     return 0;
 }

@@ -1,0 +1,36 @@
+https://github.com/CarlosFavela/Programacion.git
+
+
+Descripción del programa
+
+El proyecto Tic Tac Toe es un juego clásico de “Gato” desarrollado en C++, donde dos jugadores compiten por turno para colocar su símbolo (X u O) en un tablero de 3x3 casillas.
+El objetivo del juego es conseguir tres símbolos iguales en línea, ya sea de forma horizontal, vertical o diagonal.
+
+El programa valida cada jugada para asegurar que:
+
+No se elijan casillas ya ocupadas.
+
+Solo se acepten posiciones válidas (del 1 al 9).
+
+Se detecte correctamente al ganador o un empate.
+
+Además, el código está modularizado mediante funciones, lo que facilita su lectura y mantenimiento.
+Incluye una mejora opcional que permite al usuario reiniciar la partida o salir cuando termina un juego.
+
+
+
+Cómo jugar
+
+Al iniciar el juego, se mostrará el tablero con los números del 1 al 9.
+
+El jugador X comienza primero e ingresa el número de la posición donde desea colocar su símbolo.
+
+Después juega el jugador O, y así sucesivamente.
+
+El programa mostrará el tablero actualizado después de cada jugada.
+
+Si un jugador logra alinear tres símbolos iguales, el sistema mostrará un mensaje indicando quién ganó.
+
+En caso de que todas las casillas se llenen sin un ganador, se declara un empate.
+
+Al finalizar, se pregunta si deseas volver a jugar (s) o salir (n).
